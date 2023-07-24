@@ -1,0 +1,25 @@
+<html>
+<body>
+    <div class="login">
+       <h1>Doc Chat App</h1>
+   
+       <form action="{{ url_for('predict_datapoint')}}" method="post">
+
+        <div class="mb-3">
+            <label for="file">UPLOAD FILE:</label><br>
+            <input type="file" id="file" name="filename"><br><br>
+            <input type="submit">
+        </div>
+        <div class="mb-3"><br>
+            <label for="query">QUERY:</label><br>
+            <input type="text" id="query" name="query" value="Ask me Anything"><br>
+        </div>
+        <div class="mb-3"><br>
+            <input class="btn btn-primary" type="submit" value="Submit your query" required />
+        </div>
+    </form>
+    <h3>
+       THE  prediction is {{results}}
+    </h3>
+   <body>
+</html>
