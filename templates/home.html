@@ -3,11 +3,11 @@
     <div class="login">
        <h1>Doc Chat App</h1>
    
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
+       <form action="{{ url_for('predict_datapoint')}}" method="post" enctype=multipart/form-data>
 
         <div class="mb-3">
             <label for="file">UPLOAD FILE:</label><br>
-            <input type="file" id="file" name="filename"><br><br>
+            <input type="file" id="file" name="file"><br><br>
             <input type="submit">
         </div>
         <div class="mb-3"><br>
