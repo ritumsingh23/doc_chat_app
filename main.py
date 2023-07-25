@@ -3,6 +3,8 @@ import streamlit as st
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 from dotenv import load_dotenv
+from utils import json_csv
+import json
 # import os
 
 # OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
@@ -12,6 +14,13 @@ def main():
 
     st.set_page_config(page_title="Ask your CSV")
     st.header("Ask your CSV")
+
+    # user_json = st.file_uploader("Upload your json file", type="json")
+
+    # converting to csv
+    # json_csv(st.file_uploader("Upload your json file", type="json"))
+    json.dumps(st.file_uploader("Upload your json file", type="json"))
+
 
     user_csv = st.file_uploader("Upload your csv file", type="csv")
 
@@ -28,6 +37,13 @@ def main():
 
             st.write(response)
 
+    # elif user_json is not None:
+    #     agent=create_csv_agent(llm, "data_files/ready_to_use.csv", verbose=True)
+
+    #     if user_question is not None and user_question != "":
+    #         response = agent.run(user_question)
+
+    #         st.write(response)
 
 if __name__ == "__main__":
     main()
