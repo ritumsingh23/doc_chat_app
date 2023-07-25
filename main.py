@@ -4,46 +4,46 @@ from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 from dotenv import load_dotenv
 from utils import json_csv
-import json
-# import os
+import os
 
-# OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
+# openaiservicename = 'ms-openai-cosmos'
+# os.environ["OPENAI_API_TYPE"] = "azure"
+# os.environ["OPENAI_API_VERSION"] = '2023-05-15'
+# os.environ["OPENAI_API_BASE"] = f"https://{openaiservicename}.openai.azure.com"
+OPENAI_API_KEY="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"
 
 def main():
     load_dotenv()
 
     st.set_page_config(page_title="Ask your CSV")
     st.header("Ask your CSV")
+ 
+    user_file = st.file_uploader("Upload your csv file")
 
-    # user_json = st.file_uploader("Upload your json file", type="json")
-
-    # converting to csv
-    # json_csv(st.file_uploader("Upload your json file", type="json"))
-    json.dumps(st.file_uploader("Upload your json file", type="json"))
-
-
-    user_csv = st.file_uploader("Upload your csv file", type="csv")
-
-    if user_csv is not None:
+    if user_file is not None and user_file.name.endswith(".csv"):
         with NamedTemporaryFile() as f: # Create temporary file
-            f.write(user_csv.getvalue()) # Save uploaded contents to file
+            f.write(user_file.getvalue()) # Save uploaded contents to file
             f.flush()
             llm=OpenAI(temperature=0)
             user_question = st.text_input("Ask a question to your csv:")
-            agent=create_csv_agent(llm, f.name, verbose=True)
+            agent=create_csv_agent(llm, f.name, verbose=True, max_execution_time=1, early_stopping_method="generate")
 
         if user_question is not None and user_question != "":
             response = agent.run(user_question)
 
             st.write(response)
 
-    # elif user_json is not None:
-    #     agent=create_csv_agent(llm, "data_files/ready_to_use.csv", verbose=True)
+    elif user_file is not None and user_file.name.endswith(".json"):
+        json_csv(user_file.getvalue().decode('utf-8')) #converting the json file to csv for the csv agent
 
-    #     if user_question is not None and user_question != "":
-    #         response = agent.run(user_question)
+        llm=OpenAI(temperature=0)
+        user_question = st.text_input("Ask a question to your json:")
+        agent=create_csv_agent(llm, "data_files/ready_to_use.csv", verbose=True, max_execution_time=1, early_stopping_method="generate")
 
-    #         st.write(response)
+        if user_question is not None and user_question != "":
+            response = agent.run(user_question)
+
+            st.write(response)
 
 if __name__ == "__main__":
     main()
