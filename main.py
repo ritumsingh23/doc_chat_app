@@ -10,7 +10,6 @@ import os
 # os.environ["OPENAI_API_TYPE"] = "azure"
 # os.environ["OPENAI_API_VERSION"] = '2023-05-15'
 # os.environ["OPENAI_API_BASE"] = f"https://{openaiservicename}.openai.azure.com"
-OPENAI_API_KEY="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"
 
 def main():
     load_dotenv()
