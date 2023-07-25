@@ -1,9 +1,13 @@
 <html>
 <body>
     <div class="login">
-       <h1>Doc Chat App</h1>
+        <h3>
+            THE  prediction is {{results}}
+         </h3>
    
        <form action="{{ url_for('predict_datapoint')}}" method="post" enctype=multipart/form-data>
+
+        <h3>Submit another query</h3>
 
         <div class="mb-3">
             <label for="file">UPLOAD FILE:</label><br>
@@ -17,6 +21,5 @@
             <input class="btn btn-primary" type="submit" value="Submit your query" required />
         </div>
     </form>
-
    <body>
 </html>
