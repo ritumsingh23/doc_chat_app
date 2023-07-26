@@ -1,0 +1,6 @@
+openai
+langchain
+flask
+streamlit
+Werkzeug
+python-dotenv
