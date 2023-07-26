@@ -1,6 +1,7 @@
 openai
 langchain
-flask
+Flask
+Flask-SQLAlchemy
 streamlit
 Werkzeug
 python-dotenv
