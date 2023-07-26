@@ -1,7 +1,13 @@
 const $fileInput = $('.file-input');
 const $droparea = $('.file-drop-area');
 const $delete = $('.item-delete');
+var para1 = document.getElementById("para1");
 
+function changeImage() {
+  var inp = document.getElementById("inp");
+  var enteredText = inp.value;
+  para1.innerText = "Answer: "+{results};
+}
 $fileInput.on('dragenter focus click', function() {
   $droparea.addClass('is-active');
 });
