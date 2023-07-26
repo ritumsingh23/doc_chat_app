@@ -25,14 +25,19 @@
     <div class="form__group field">
       <input type="input" class="form__field" placeholder="Name" name="query" id='query' required /><br><br>
       <label for="name" class="form__label">Query</label>
-    </div>
+    </div><br><br>
 
-    <div class="mb-3"><br>
-      <input class="btn btn-primary" type="submit" value="Submit your query" required /><br><br>
+    <div id="container">
+      <button class="learn-more">
+        <span class="circle" aria-hidden="true">
+          <span class="icon arrow"></span>
+        </span>
+        <span class="button-text">Submit</span>
+      </button>
     </div>
 
     <h3>
-        Your Result Is => {{results}}
+        Answer => {{results}}
     </h3>
 
     </form>
