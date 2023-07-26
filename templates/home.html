@@ -5,9 +5,9 @@
    
        <form action="{{ url_for('predict_datapoint')}}" method="post" enctype=multipart/form-data>
 
-        <div class="mb-3">
+        <div class="mb-3" id="file-upload-filename">
             <label for="file">UPLOAD FILE:</label><br>
-            <input type="file" id="file" name="file"><br><br>
+            <input type="file" id="file" name="file" multiple requried><br><br>
         </div>
         <div class="mb-3"><br>
             <label for="query">QUERY:</label><br>
@@ -17,6 +17,10 @@
             <input class="btn btn-primary" type="submit" value="Submit your query" required />
         </div>
     </form>
+
+    <h3>
+        Answer to your query is : {{results}}
+     </h3>
 
    <body>
 </html>

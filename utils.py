@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 from pandas import json_normalize
+import os 
 
 def json_csv(location):
     dictionary = json.loads(location)
@@ -31,4 +32,7 @@ def json_csv(location):
 
     df1 = df.T.drop_duplicates().T
 
-    df1.to_csv('data_files/ready_to_use.csv')
+    #file_location = os.path.join(app.config['UPLOAD_FOLDER'])
+
+
+    df1.to_csv('file_path/test.csv')
