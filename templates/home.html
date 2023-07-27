@@ -7,9 +7,9 @@
 
 <body>
   <div class="login">
-
-    <h1>Doc Chat App</h1>
-
+    <header class="header">
+    <h1>Peearz App</h1>
+    </header>
     <form id="dataForm" action="{{ url_for('predict_datapoint')}}" method="post" enctype="multipart/form-data">
 
       <div class="container">
@@ -35,6 +35,10 @@
             <span class="button-text">Submit</span>
           </button>
         </div>
+        
+        <div class="loading-bar-container" id="loadingBarContainer" style="display: none;">
+          <div class="loading-bar" id="loadingBar"></div>
+        </div>
       </div>
 
     </form>
@@ -42,6 +46,12 @@
 
     <h3 id="Answer" style="display: none;">
       The result to your query is: <span id="resultText"></span>
+      <button id="resubmitButton" class="learn-more" style="display: none;">
+        <span class="circle" aria-hidden="true">
+          <span class="icon arrow"></span>
+        </span>
+        <span class="button-text">Resubmit</span>
+      </button>
     </h3>
 
     <script>
@@ -52,11 +62,23 @@
         const submitButtonContainer = document.getElementById('container');
         const queryInput = document.getElementById('query');
         const fileInput = document.getElementById('file');
+        const resubmitButton = document.getElementById('resubmitButton');
+        const loadingBarContainer = document.getElementById('loadingBarContainer'); // Get the loading bar container
+        const loadingBar = document.getElementById('loadingBar'); // Get the loading bar
+
+        // Store the initial state of the form elements
+        const initialFileInput = fileInput.cloneNode();
+        const initialQueryInput = queryInput.cloneNode();
 
         form.addEventListener('submit', function (event) {
           event.preventDefault();
 
           const formData = new FormData(form);
+
+          responseDiv.style.display = 'none';
+          submitButtonContainer.style.display = 'none';
+          loadingBar.style.width = '0%'; // Reset the loading bar width to 0
+          loadingBarContainer.style.display = 'block';
 
           fetch('/predictdata', {
             method: 'POST',
@@ -65,12 +87,36 @@
           .then(response => response.text())
           .then(data => {
             resultText.innerText = data; // Display the result text
+            
+            
             responseDiv.style.display = 'block'; // Show the result div
+
+            // Hide the loading bar and show the submit button again
+            loadingBarContainer.style.display = 'none';
+            submitButtonContainer.style.display = 'block';
+
+            // Show the resubmit container after getting the response
+            resubmitContainer.style.display = 'block';
           })
           .catch(error => {
             console.error('Error:', error);
           });
         });
+
+        // Resubmit button event listener
+        resubmitButton.addEventListener('click', function () {
+        responseDiv.style.display = 'none'; // Hide the result div
+        resubmitButton.style.display = 'none'; // Hide the resubmit container
+        submitButtonContainer.style.display = 'block'; // Show the submit button container
+
+        // Reset file input and text input to their initial states
+        fileInput.replaceWith(initialFileInput.cloneNode());
+        queryInput.replaceWith(initialQueryInput.cloneNode());
+        fileInput = initialFileInput.cloneNode();
+        queryInput = initialQueryInput.cloneNode();
+        fileInput.addEventListener('change', updateVisibility);
+        queryInput.addEventListener('input', updateVisibility);
+      });
 
         function updateVisibility() {
           const hasFile = fileInput.files.length > 0;
