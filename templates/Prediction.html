@@ -1,22 +1,28 @@
+<!DOCTYPE html>
 <html>
+<head>
+  <title>Peearz App Result</title>
+  <link rel='stylesheet' type='text/css' href='/static/style2.css' />
+</head>
 <body>
-    <div class="login">
-        <h3>
-            Answer to your query is : {{results}}
-         </h3>
-   
-       <form action="{{ url_for('predict_datapoint')}}" method="post" enctype=multipart/form-data>
-
-        <h3>Submit another query??</h3>
-
-        <div class="mb-3"><br>
-            <label for="query">QUERY:</label><br>
-            <input type="text" id="query" name="query" value="Ask me Anything"><br>
-        </div>
-        
-        <div class="mb-3"><br>
-            <input class="btn btn-primary" type="submit" value="Submit your query" required />
-        </div>
-    </form>
-   <body>
+  <div class="login">
+    <header class="header">
+      <h1>Peearz App</h1>
+    </header>
+    <div>
+      <h3>The result to your query is: {{ result }}</h3>
+      <form action="{{ url_for('predict_datapoint') }}" method="post" enctype="multipart/form-data">
+        <!-- Your file upload and other form elements go here -->
+        <button id="resubmitButton" class="learn-more" style="display: none;">
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span>
+            </span>
+            <span class="button-text">Resubmit</span>
+          </button>
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/static/script.js"></script>
+  </div>
+</body>
 </html>
