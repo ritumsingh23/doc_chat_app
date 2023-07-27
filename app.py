@@ -71,7 +71,7 @@ def predict_datapoint():
                 if user_question is not None and user_question != "":
                     response = agent.run(user_question)
                 
-            return render_template('home.html',results=response)
+            return response
     
 if __name__=="__main__":
     app.run(host="0.0.0.0", port="4999",debug=True)

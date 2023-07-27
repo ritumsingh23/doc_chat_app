@@ -10,47 +10,99 @@
 
     <h1>Doc Chat App</h1>
 
-    <form action="{{ url_for('predict_datapoint')}}" method="post" enctype=multipart/form-data>
+    <form id="dataForm" action="{{ url_for('predict_datapoint')}}" method="post" enctype="multipart/form-data">
 
-    <div class="container">
-      <div class="file-drop-area">
-        <span class="fake-btn">Browse files</span>
-        <span class="file-msg">or drop files here</span>
-        <input class="file-input" type="file" name="file" id="file" multiple>
-        <div class="item-delete"></div>
+      <div class="container">
+        <div class="file-drop-area">
+          <span class="fake-btn">Browse files</span>
+          <span class="file-msg">or drop files here</span>
+          <input class="file-input" type="file" name="file" id="file" multiple>
+          <div class="item-delete"></div>
+        </div>
       </div>
-    </div>
 
-
-    <div class="form__group field">
-      <input type="input" class="form__field" placeholder="Name" name="query" id='query' required /><br><br>
-      <label for="name" class="form__label">Query</label>
-    </div><br><br>
-
-    <div id="container">
-      <button class="learn-more">
-        <span class="circle" aria-hidden="true">
-          <span class="icon arrow"></span>
-        </span>
-        <span class="button-text">Submit</span>
-      </button>
-    </div>
-
-    <h3 id = "Answer">
-      {{results}}
-    </h3>
+      <div id="uploadStatus" style="display: none;">
+        <div class="form__group field">
+          <input type="input" class="form__field" placeholder="Name" name="query" id="query" required /><br><br>
+          <label for="name" class="form__label">Query</label>
+        </div><br><br>
+      
+        <div id="container" style="display: none;">
+          <button class="learn-more">
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span>
+            </span>
+            <span class="button-text">Submit</span>
+          </button>
+        </div>
+      </div>
 
     </form>
+    <br><br><br>
+
+    <h3 id="Answer" style="display: none;">
+      The result to your query is: <span id="resultText"></span>
+    </h3>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('dataForm');
+        const responseDiv = document.getElementById('Answer');
+        const resultText = document.getElementById('resultText');
+        const submitButtonContainer = document.getElementById('container');
+        const queryInput = document.getElementById('query');
+        const fileInput = document.getElementById('file');
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(form);
+
+          fetch('/predictdata', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.text())
+          .then(data => {
+            resultText.innerText = data; // Display the result text
+            responseDiv.style.display = 'block'; // Show the result div
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+
+        function updateVisibility() {
+          const hasFile = fileInput.files.length > 0;
+          const hasQuery = queryInput.value.trim() !== '';
+
+          // Show the text box when there is any file uploaded
+          if (hasFile) {
+            uploadStatus.style.display = 'block';
+          } else {
+            uploadStatus.style.display = 'none';
+          }
+
+          // Show the submit button when there is text in the query input
+          if (hasQuery) {
+            submitButtonContainer.style.display = 'block';
+          } else {
+            submitButtonContainer.style.display = 'none';
+          }
+
+          // Hide the response message when input changes
+          responseDiv.style.display = 'none';
+        }
+
+        queryInput.addEventListener('input', updateVisibility);
+        fileInput.addEventListener('change', updateVisibility);
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/static/script.js"></script>
 
   </div>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="/static/script.js"></script>
-
-
 </body>
-
-
 
 </html>
