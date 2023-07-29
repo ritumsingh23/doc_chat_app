@@ -18,7 +18,7 @@ openaiservicename = 'ms-openai-cosmos'
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_VERSION"] = '2023-05-15'
 os.environ["OPENAI_API_BASE"] = f"https://{openaiservicename}.openai.azure.com"
-os.environ["OPENAI_API_KEY"] = APPSETTING_OPENAI_API_KEY
+os.environ["OPENAI_API_KEY"] = os.environ.get('OPENAI_API_KEY')
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'file_path')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
