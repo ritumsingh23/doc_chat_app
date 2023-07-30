@@ -1,10 +1,28 @@
 import json
 import pandas as pd
 from pandas import json_normalize
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import os 
 
-def json_csv(location):
-    dictionary = json.loads(location)
+Connection_String_to_blob = os.environ.get('Connection_String_to_blob')
+
+def get_blob_service_client():
+    connection_string = Connection_String_to_blob
+    return BlobServiceClient.from_connection_string(connection_string)
+
+def upload_to_blob_storage(file_path, filename):
+    blob_service_client = get_blob_service_client()
+    container_name = 'peearzchatdocupload'  # Create a container in your Blob storage account
+
+    # Get a blob client
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+
+    # Upload the file to Blob storage
+    with open(file_path, 'rb') as data:
+        blob_client.upload_blob(data, overwrite=True)
+
+def json_csv(path_to_store, file):
+    dictionary = json.loads(file)
 
     df = None
     first = True
@@ -35,4 +53,4 @@ def json_csv(location):
     #file_location = os.path.join(app.config['UPLOAD_FOLDER'])
 
 
-    df1.to_csv('file_path/test.csv')
+    df1.to_csv(path_to_store+'/test.csv')

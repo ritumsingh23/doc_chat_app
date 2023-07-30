@@ -5,3 +5,5 @@ Flask-SQLAlchemy
 streamlit
 Werkzeug
 python-dotenv
+azure-storage-blob
+tabulate
