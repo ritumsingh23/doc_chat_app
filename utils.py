@@ -52,5 +52,4 @@ def json_csv(path_to_store, file):
 
     #file_location = os.path.join(app.config['UPLOAD_FOLDER'])
 
-
-    df1.to_csv(path_to_store+'/test.csv')
+    df1.to_csv('file_path/test.csv')
