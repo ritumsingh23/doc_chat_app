@@ -63,11 +63,11 @@ def predict_datapoint():
 
             elif filename.endswith(".json"):
                 #user_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  
-                json_csv(UPLOAD_FOLDER, user_file.getvalue().decode('utf-8')) #converting the json file to csv for the csv agent
+                json_csv(temp_file_path, user_file.getvalue().decode('utf-8')) #converting the json file to csv for the csv agent
                 llm=OpenAI(engine='text-davinci-002', temperature=0)
                 user_question = request.form['query']
                 file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                agent=create_csv_agent(llm, UPLOAD_FOLDER+'/test.csv', verbose=True, early_stopping_method="generate")
+                agent=create_csv_agent(llm, temp_file_path+'file_path/test.csv', verbose=True, early_stopping_method="generate")
 
                 if user_question is not None and user_question != "":
                     response = agent.run(user_question)
