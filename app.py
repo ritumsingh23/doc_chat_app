@@ -45,6 +45,9 @@ def predict_datapoint():
             temp_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             user_file.save(temp_file_path)
 
+            # Upload the file to Azure Blob storage
+            upload_to_blob_storage(temp_file_path, filename)
+
             if filename.endswith(".csv"):
                 #user_file.save(os.path.join(app.config['blob_path'], filename))      
     
@@ -68,9 +71,6 @@ def predict_datapoint():
 
                 if user_question is not None and user_question != "":
                     response = agent.run(user_question)
-
-            # Upload the file to Azure Blob storage
-            upload_to_blob_storage(temp_file_path, filename)
 
             # Remove the temporary file after uploading
             os.remove(temp_file_path)
