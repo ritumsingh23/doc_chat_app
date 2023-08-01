@@ -6,11 +6,6 @@ from dotenv import load_dotenv
 from utils import json_csv
 import os
 
-# openaiservicename = 'ms-openai-cosmos'
-# os.environ["OPENAI_API_TYPE"] = "azure"
-# os.environ["OPENAI_API_VERSION"] = '2023-05-15'
-# os.environ["OPENAI_API_BASE"] = f"https://{openaiservicename}.openai.azure.com"
-
 def main():
     load_dotenv()
 
