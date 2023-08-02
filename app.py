@@ -21,7 +21,7 @@ os.environ["OPENAI_API_VERSION"] = '2023-05-15'
 os.environ["OPENAI_API_BASE"] = f"https://{openaiservicename}.openai.azure.com"
 os.environ["OPENAI_API_KEY"] = os.environ.get('OPENAI_API_KEY')
 
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'file_path')
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'file_path/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
@@ -69,12 +69,12 @@ def predict_datapoint():
 
                 elif filename.endswith(".json"):
                     #user_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  
-                    json_content = user_file.read()
+                    #json_content = user_file.read()
                     json_csv(UPLOAD_FOLDER, user_file.getvalue().decode('utf-8')) #converting the json file to csv for the csv agent
                     llm=OpenAI(engine='text-davinci-002', temperature=0)
                     user_question = request.form['query']
-                    file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                    agent=create_csv_agent(llm, 'file_path/test.csv', verbose=True, early_stopping_method="generate")
+                    #file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    agent=create_csv_agent(llm, 'test.csv', verbose=True, early_stopping_method="generate")
 
                     if user_question is not None and user_question != "":
                         response = querys(agent, user_question)

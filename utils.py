@@ -53,7 +53,7 @@ def json_csv(path_to_store, file):
     #file_location = os.path.join(app.config['UPLOAD_FOLDER'])
     #df1.to_csv('file_path/test.csv')
 
-    df1.to_csv('file_path/test.csv')
+    df1.to_csv('test.csv')
     upload_to_blob_storage(os.path.join(path_to_store, 'test.csv'), 'test.csv')
 
 '''import os 
