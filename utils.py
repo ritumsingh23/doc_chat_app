@@ -22,6 +22,7 @@ def upload_to_blob_storage(file_path, filename):
         blob_client.upload_blob(data, overwrite=True)
 
 def json_csv(path_to_store, file):
+
     dictionary = json.loads(file)
 
     df = None
@@ -54,34 +55,15 @@ def json_csv(path_to_store, file):
     #df1.to_csv('file_path/test.csv')
 
     df1.to_csv('test.csv')
-    upload_to_blob_storage(os.path.join(path_to_store, 'test.csv'), 'test.csv')
+    #upload_to_blob_storage(os.path.join(path_to_store, 'test.csv'), 'test.csv')
 
-'''import os 
-import sys
-import json
-import csv
-import pandas as pd
-from pandas import json_normalize
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-from exception import CustomException
+'''def json_csv(path_to_csv, file):  # NEW FUNCTION 3
+    #print("FILE IS :",file)
+    df = pd.read_json(file)
+    print(df.head())
+    df.to_csv('test.csv')'''
 
-Connection_String_to_blob = os.environ.get('Connection_String_to_blob')
-
-def get_blob_service_client():
-    connection_string = Connection_String_to_blob
-    return BlobServiceClient.from_connection_string(connection_string)
-
-def upload_to_blob_storage(file_path, filename):
-    blob_service_client = get_blob_service_client()
-    container_name = 'peearzchatdocupload'  # Create a container in your Blob storage account
-
-    # Get a blob client
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
-
-    # Upload the file to Blob storage
-    with open(file_path, 'rb') as data:
-        blob_client.upload_blob(data, overwrite=True)
-
+'''
 def fetch_file_from_blob(container_name, blob_name, destination_path):
     blob_service_client = get_blob_service_client()
     container_client = blob_service_client.get_container_client(container_name)
@@ -91,56 +73,7 @@ def fetch_file_from_blob(container_name, blob_name, destination_path):
         blob_data = blob_client.download_blob()
         file.write(blob_data.readall())
 
-def json_csv(path_to_store, file):
-
-    print("File Content:")
-    print(file)
-    try:
-        dictionary = json.loads(file)
-
-    except json.JSONDecodeError as e:
-        print("JSON Parsing Error : ", e)
-        print("FILE CONTENT : ")
-        print(file)
-        raise CustomException("Error parsing JSON content.", sys)
-    
-    except Exception as e:
-        print("Unexpected Error:", e)
-        raise CustomException("Unexpected error occurred while processing JSON content.", sys)    
-
-    df = None
-    first = True
-
-    for document in dictionary:
-        if document == None:
-            continue
-        else:
-            dfLeft = json_normalize(document)
-
-        for title, value in document.items():
-            if type(value) == list:
-                dfLeft.drop(title, axis="columns", inplace=True)
-                dfRight = json_normalize(value)
-                dfRight = dfRight.add_prefix(f"{title}_")
-                dfLeft = pd.concat([dfLeft, dfRight], axis = 1)    
-
-        if first:
-            df = dfLeft
-            first = False
-        else:
-            df = pd.concat([df, dfLeft], axis = 0)
-
-    df.reset_index(inplace=True, drop=True)
-
-    df1 = df.T.drop_duplicates().T
-
-    #file_location = os.path.join(app.config['UPLOAD_FOLDER'])
-    #df1.to_csv('file_path/test.csv')
-
-    df1.to_csv(os.path.join(path_to_store, 'test.csv'))
-    upload_to_blob_storage(os.path.join(path_to_store, 'test.csv'), 'test.csv')
-
-def json_csv(json_file_path, csv_file_path):
+def json_csv(json_file_path, csv_file_path):  NEW FUNCTION 2
     """
     Convert a JSON file to a CSV file.
 

@@ -8,3 +8,5 @@ python-dotenv
 azure-storage-blob
 tabulate
 jsonlines
+ipykernel
+jupyterlab
